@@ -11,7 +11,25 @@
             <lightning-input label="Email" placeholder="Enter your email" onchange={handleEmailChange} type="email" required></lightning-input>
         </div>
         <div class="course-drowpdown">
-            <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox>
+            <lightning-input 
+                label="Select Course" 
+                placeholder="Search course" 
+                onchange={handleCourseChange} 
+                onfocus={handleComboFocus} 
+                type="text" 
+                value={courseName}
+                required >
+            </lightning-input>
+            <template if:true={displayCourseOptions}>
+                <ul class="list-box">
+                    <template for:each={courseOptions5} for:item="course">
+                        <li key={course.Id} class="course-item" data-id={course.Id} onclick={handleCourseClick}>
+                            {course.label}
+                        </li>
+                    </template>
+                </ul>
+            </template>
+            <!-- <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox> -->
         </div>
         <div class="message-ipt">
             <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} value={minValueMessage} required></lightning-textarea>
