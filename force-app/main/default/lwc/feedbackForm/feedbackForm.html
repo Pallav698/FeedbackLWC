@@ -1,0 +1,40 @@
+<template>
+    <div class="parent-container"> 
+        <h1>Feedback Form</h1>
+    </div>
+    
+    <div class="container">
+        <div class="name-ipt">
+            <lightning-input label="Name" placeholder="Enter your name" onchange={handleNameChange} type="text" required ></lightning-input>
+        </div>
+        <div class="email-ipt">
+            <lightning-input label="Email" placeholder="Enter your email" onchange={handleEmailChange} type="email" required></lightning-input>
+        </div>
+        <div class="course-drowpdown">
+            <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox>
+        </div>
+        <div class="message-ipt">
+            <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} value={minValueMessage} required></lightning-textarea>
+        </div>
+        <div class="rating">
+            <ul class="rating">
+                <template for:each={ratingArray} for:item="rating">
+                   
+                        <li class='list-item' key={rating.id}>
+                            <lightning-icon 
+                                alternative-text="Rating" 
+                                icon-name={rating.iconName} 
+                                size="Large" 
+                                onclick={handleRatingChange} 
+                                data-id={rating.id}>
+                            </lightning-icon>
+                        </li>
+                    
+                </template>
+            </ul>
+        </div>
+        <div class="submit-btn">
+            <lightning-button label="Submit" onclick={handleSubmit} variant="brand"></lightning-button>
+        </div>
+    </div>
+</template>

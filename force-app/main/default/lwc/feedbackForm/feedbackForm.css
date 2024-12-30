@@ -1,0 +1,23 @@
+.parent-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2%;
+    width: 50%;
+    flex-direction: column;
+}
+
+.rating {
+    display: flex;
+    list-style: none;
+    margin-bottom: 2%;
+}
+
+.list-item {
+    margin-right: 0.5%;
+}
+
+.submit-btn {
+    display: flex;
+    justify-content: center;
+}
