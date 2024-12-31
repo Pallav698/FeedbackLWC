@@ -5,7 +5,7 @@
     
     <div class="container">
         <div class="name-ipt">
-            <lightning-input label="Name" placeholder="Enter your name" onchange={handleNameChange} type="text" required ></lightning-input>
+            <lightning-input label="Name" placeholder="Enter your name" onchange={handleNameChanhge} type="text" required ></lightning-input>
         </div>
         <div class="email-ipt">
             <lightning-input label="Email" placeholder="Enter your email" onchange={handleEmailChange} type="email" required></lightning-input>
@@ -32,7 +32,7 @@
             <!-- <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox> -->
         </div>
         <div class="message-ipt">
-            <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} value={minValueMessage} required></lightning-textarea>
+            <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} required minlength="10"></lightning-textarea>
         </div>
         <div class="rating">
             <ul class="rating">
@@ -50,6 +50,15 @@
                     
                 </template>
             </ul>
+        </div>
+        <div class="send-copy">
+            <h3>Send a copy of response</h3>
+            <lightning-icon 
+                alternative-text="sendCopy" 
+                icon-name={sendCopyIconName} 
+                size="Large" 
+                onclick={handleSendCopyChange}>
+            </lightning-icon>
         </div>
         <div class="submit-btn">
             <lightning-button label="Submit" onclick={handleSubmit} variant="brand"></lightning-button>

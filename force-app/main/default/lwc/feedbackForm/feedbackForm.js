@@ -1,5 +1,7 @@
 import { LightningElement, track, wire } from 'lwc';
 import getTrainigrecords from '@salesforce/apex/TrainingHandler.getTrainigrecords';
+import createfeedback from '@salesforce/apex/FeebackHandler.createfeedback';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class FeedbackForm extends LightningElement {
     ratingArray = [
@@ -14,14 +16,32 @@ export default class FeedbackForm extends LightningElement {
     displayCourseOptions = false;
     @track courseOptions5 = [];
     courseName = '';
+    sendCopyIconName = 'utility:toggle_off';
+    ratingId;
+    courseId = '';
+    Name = '';
+    Email = '';
+    Message = '';
+
+    handleNameChanhge(event){
+        this.Name = event.target.value;
+    }
+
+    handleEmailChange(event){
+        this.Email = event.target.value;
+    }
+
+    handleMessageChange(event){
+        this.Message = event.target.value;
+    }
 
     handleRatingChange(event) {
-        const id = event.target.dataset.id;
-        console.log('Rating: ' + id);
+        this.ratingId = event.target.dataset.id;
+        console.log('Rating: ' + this.ratingId);
         
-        if(id){
+        if(this.ratingId){
             this.ratingArray = this.ratingArray.map(item => {
-                if(item.id <= id){
+                if(item.id <= this.ratingId){
                     return {
                         id: item.id,
                         iconName: 'utility:favorite'
@@ -75,7 +95,7 @@ export default class FeedbackForm extends LightningElement {
             
         }
         else{
-            this.displayCourseOptions = false;
+            this.displayCourseOptions = false; 
         }
         
     }
@@ -87,8 +107,44 @@ export default class FeedbackForm extends LightningElement {
     }
 
     handleCourseClick(event){
+        this.courseId = event.target.dataset.id
         this.courseName = event.target.textContent;
         this.displayCourseOptions = false;
         console.log('Course Name: ' + this.courseName);
+    }
+
+    handleSendCopyChange(){
+        this.sendCopyIconName = this.sendCopyIconName === 'utility:toggle_off' ? 'utility:toggle_on' : 'utility:toggle_off';
+    }
+
+    handleSubmit(){
+        const feedbackObj = {
+            Name__c: this.Name,
+            Email__c: this.Email,
+            Rating__c: this.ratingId,
+            Training__c: this.courseId,
+            Mesage__c: this.Message,
+            Send__Copy__c: this.sendCopyIconName === 'utility:toggle_on' ? true : false
+        }
+
+        console.log('Feedback Object: ', JSON.stringify(feedbackObj));
+
+        createfeedback({ feedbackObj: feedbackObj })
+        .then(result => {
+            this.ShowToastEvent('Success', 'Feedback Received Successfully', 'success');
+            
+        })
+        .catch(error => {
+            this.ShowToastEvent('Error', 'Error Occured While Sending Feedback', 'error');
+        })
+    }
+
+    ShowToastEvent(title, message, variant){
+        const event = new ShowToastEvent({
+            title: title,
+            message: message,
+            variant: variant
+        });
+        this.dispatchEvent(event);
     }
 }
