@@ -1,9 +1,11 @@
 import { LightningElement, track, wire } from 'lwc';
 import getTrainigrecords from '@salesforce/apex/TrainingHandler.getTrainigrecords';
 import createfeedback from '@salesforce/apex/FeebackHandler.createfeedback';
-import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { NavigationMixin } from 'lightning/navigation';
+import ToastContainer from 'lightning/toastContainer';
 
-export default class FeedbackForm extends LightningElement {
+
+export default class FeedbackForm extends NavigationMixin(LightningElement) {
     ratingArray = [
         { id: 1, iconName: 'utility:favorite' },
         { id: 2, iconName: 'utility:favorite_alt' },
@@ -22,6 +24,12 @@ export default class FeedbackForm extends LightningElement {
     Name = '';
     Email = '';
     Message = '';
+
+    connectedCallback() {
+        const toastContainer = ToastContainer.instance();
+        toastContainer.maxShown = 5;
+        toastContainer.toastPosition = 'top-right';
+    }
 
     handleNameChanhge(event){
         this.Name = event.target.value;
@@ -67,7 +75,7 @@ export default class FeedbackForm extends LightningElement {
                 }
             })
 
-            this.handleCourseOptions5();
+            //this.handleCourseOptions5();
         }
     }
 
@@ -91,7 +99,7 @@ export default class FeedbackForm extends LightningElement {
         console.log('Course: ' + val);
         if(val !== ''){
             this.displayCourseOptions = true;
-            this.handleCourseOptions5(val);
+            //this.handleCourseOptions5(val);
             
         }
         else{
@@ -118,6 +126,17 @@ export default class FeedbackForm extends LightningElement {
     }
 
     handleSubmit(){
+        const allInputs = this.template.querySelectorAll('lightning-input, lightning-textarea');
+        let allValid = true;
+
+        allInputs.forEach(input => {
+            if(!input.reportValidity()){
+                allValid = false;
+                console.log('Input: ', input);
+            }
+        });
+
+        if(allValid){
         const feedbackObj = {
             Name__c: this.Name,
             Email__c: this.Email,
@@ -131,20 +150,21 @@ export default class FeedbackForm extends LightningElement {
 
         createfeedback({ feedbackObj: feedbackObj })
         .then(result => {
-            this.ShowToastEvent('Success', 'Feedback Received Successfully', 'success');
+            this[NavigationMixin.Navigate]({
+                type: 'standard__webPage',
+                attributes: {
+                    url: '/thankyou'
+                }
+            });
             
         })
         .catch(error => {
-            this.ShowToastEvent('Error', 'Error Occured While Sending Feedback', 'error');
+            
         })
     }
-
-    ShowToastEvent(title, message, variant){
-        const event = new ShowToastEvent({
-            title: title,
-            message: message,
-            variant: variant
-        });
-        this.dispatchEvent(event);
+    else{
+        
     }
+}
+    
 }
