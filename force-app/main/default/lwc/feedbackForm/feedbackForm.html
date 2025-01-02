@@ -1,67 +1,68 @@
 <template>
     <div class="parent-container"> 
         <h1>Feedback Form</h1>
-    </div>
-    
-    <div class="container">
-        <div class="name-ipt">
-            <lightning-input label="Name" placeholder="Enter your name" onchange={handleNameChanhge} type="text" required ></lightning-input>
-        </div>
-        <div class="email-ipt">
-            <lightning-input label="Email" placeholder="Enter your email" onchange={handleEmailChange} type="email" required></lightning-input>
-        </div>
-        <div class="course-drowpdown">
-            <lightning-input 
-                label="Select Course" 
-                placeholder="Search course" 
-                onchange={handleCourseChange} 
-                onfocus={handleComboFocus} 
-                type="text" 
-                value={courseName}
-                required >
-            </lightning-input>
-            <template if:true={displayCourseOptions}>
-                <ul class="list-box">
-                    <template for:each={courseOptions5} for:item="course">
-                        <li key={course.Id} class="course-item" data-id={course.Id} onclick={handleCourseClick}>
-                            {course.label}
-                        </li>
+        <div class="container">
+            <div class="name-ipt">
+                <lightning-input label="Name" placeholder="Enter your name" onchange={handleNameChanhge} type="text" required ></lightning-input>
+            </div>
+            <div class="email-ipt">
+                <lightning-input label="Email" placeholder="Enter your email" onchange={handleEmailChange} type="email" required></lightning-input>
+            </div>
+            <div class="course-drowpdown">
+                <lightning-input 
+                    label="Select Course" 
+                    placeholder="Search course" 
+                    onchange={handleCourseChange} 
+                    
+                    type="text" 
+                    value={courseName}
+                    required >
+                </lightning-input>
+                <template if:true={displayCourseOptions}>
+                    <ul class="list-box">
+                        <template for:each={courseOptions} for:item="course">
+                            <li key={course.Id} class="course-item" data-id={course.Id} onclick={handleCourseClick}>
+                                {course.label}
+                            </li>
+                        </template>
+                    </ul>
+                </template>
+                <!-- <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox> -->
+            </div>
+            <div class="message-ipt">
+                <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} required minlength="10"></lightning-textarea>
+            </div>
+            <div class="rating">
+                <ul class="rating">
+                    <template for:each={ratingArray} for:item="rating">
+                       
+                            <li class='list-item' key={rating.id}>
+                                <lightning-icon 
+                                    alternative-text="Rating" 
+                                    icon-name={rating.iconName} 
+                                    size={iconSize}
+                                    onclick={handleRatingChange} 
+                                    data-id={rating.id}>
+                                </lightning-icon>
+                            </li>
+                        
                     </template>
                 </ul>
-            </template>
-            <!-- <lightning-combobox label="Select Course" options={courseOptions} onchange={handleCourseChange} required ></lightning-combobox> -->
-        </div>
-        <div class="message-ipt">
-            <lightning-textarea label="Message" placeholder="Enter your message" onchange={handleMessageChange} required minlength="10"></lightning-textarea>
-        </div>
-        <div class="rating">
-            <ul class="rating">
-                <template for:each={ratingArray} for:item="rating">
-                   
-                        <li class='list-item' key={rating.id}>
-                            <lightning-icon 
-                                alternative-text="Rating" 
-                                icon-name={rating.iconName} 
-                                size="Large" 
-                                onclick={handleRatingChange} 
-                                data-id={rating.id}>
-                            </lightning-icon>
-                        </li>
-                    
-                </template>
-            </ul>
-        </div>
-        <div class="send-copy">
-            <h3>Send a copy of response</h3>
-            <lightning-icon 
-                alternative-text="sendCopy" 
-                icon-name={sendCopyIconName} 
-                size="Large" 
-                onclick={handleSendCopyChange}>
-            </lightning-icon>
-        </div>
-        <div class="submit-btn">
-            <lightning-button label="Submit" onclick={handleSubmit} variant="brand"></lightning-button>
+            </div>
+            <div class="send-copy">
+                <h3>Send a copy of response</h3>
+                <lightning-icon 
+                    alternative-text="sendCopy" 
+                    icon-name={sendCopyIconName} 
+                    size="Large" 
+                    onclick={handleSendCopyChange}>
+                </lightning-icon>
+            </div>
+            <div class="submit-btn">
+                <lightning-button label="Submit" onclick={handleSubmit} variant="brand"></lightning-button>
+            </div>
         </div>
     </div>
+    
+    
 </template>

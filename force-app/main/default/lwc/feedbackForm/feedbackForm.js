@@ -14,10 +14,10 @@ export default class FeedbackForm extends NavigationMixin(LightningElement) {
         { id: 5, iconName: 'utility:favorite_alt' }
     ];
 
-    courseOptions = [];
+    @track courseOptions = [];
     displayCourseOptions = false;
     @track courseOptions5 = [];
-    courseName = '';
+    @track courseName = '';
     sendCopyIconName = 'utility:toggle_off';
     ratingId;
     courseId = '';
@@ -79,20 +79,20 @@ export default class FeedbackForm extends NavigationMixin(LightningElement) {
         }
     }
 
-    handleCourseOptions5(val){
-        if(val === undefined){
-            this.courseOptions5 = this.courseOptions.slice(0, 5);
-        }
-        else{
-            this.courseOptions5 = this.courseOptions.filter(item => {
-                return item.label.toLowerCase().includes(val.toLowerCase());
-            })
+    // handleCourseOptions5(val){
+    //     if(val === undefined){
+    //         this.courseOptions5 = this.courseOptions.slice(0, 5);
+    //     }
+    //     else{
+    //         this.courseOptions5 = this.courseOptions.filter(item => {
+    //             return item.label.toLowerCase().includes(val.toLowerCase());
+    //         })
 
-            if(this.courseOptions5.length > 5){
-                this.courseOptions5 = this.courseOptions5.slice(0, 5);
-            }
-        }
-    }
+    //         if(this.courseOptions5.length > 5){
+    //             this.courseOptions5 = this.courseOptions5.slice(0, 5);
+    //         }
+    //     }
+    // }
 
     handleCourseChange(event){
         const val = event.target.value;
@@ -106,18 +106,18 @@ export default class FeedbackForm extends NavigationMixin(LightningElement) {
             this.displayCourseOptions = false; 
         }
         
-    }
+    }   
 
-    handleComboFocus(){
-        this.displayCourseOptions = true;
-        this.handleCourseOptions5();
-        this.courseName = this.courseName === '' ? this.courseOptions[0].label : this.courseName;
+    get iconSize() {
+        return window.innerWidth >= 768 ? 'large' : 'small';
     }
 
     handleCourseClick(event){
         this.courseId = event.target.dataset.id
         this.courseName = event.target.textContent;
-        this.displayCourseOptions = false;
+        setTimeout(() => {
+            this.displayCourseOptions = false;
+        }, 0);
         console.log('Course Name: ' + this.courseName);
     }
 
