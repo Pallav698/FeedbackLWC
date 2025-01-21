@@ -1,0 +1,25 @@
+<template>
+    <lightning-card title="Accounts created in second org today" icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            
+            <template if:false={accounts.length}>
+                <div class="slds-box slds-theme_default slds-text-align_center">
+                    No accounts created today in the second org.
+                </div>
+            </template>
+            <template if:true={accounts.length}>
+                <lightning-datatable
+                key-field="Id__c"
+                data={accounts}
+                hide-checkbox-column
+                columns={columns}>
+            </lightning-datatable>
+            </template>
+            
+
+            
+
+            
+        </div>
+    </lightning-card>
+</template>

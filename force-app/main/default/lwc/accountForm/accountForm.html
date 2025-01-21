@@ -1,0 +1,12 @@
+<template>
+    <lightning-card title="Create Account" icon-name="standard:account">
+        <div class="slds-m-around_medium">
+            <lightning-record-edit-form object-api-name="Account">
+                <lightning-input-field field-name="Name"></lightning-input-field>
+                <lightning-input-field field-name="Phone"></lightning-input-field>
+                <lightning-input-field field-name="Type"></lightning-input-field>
+                <lightning-button class="slds-m-top_small slds-align_absolute-center" type="submit" label="Create Account" onclick={handleClick}></lightning-button>
+            </lightning-record-edit-form>
+        </div>
+    </lightning-card>
+</template>
