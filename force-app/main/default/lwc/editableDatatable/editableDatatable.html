@@ -1,0 +1,16 @@
+<template>
+    <lightning-card
+        icon-name="standard:opportunity"
+        title="Editable Datatable">
+        <div class="slds-m-around_medium">
+            <lightning-datatable
+                key-field="Id"
+                data={oppList}
+                columns={columns}
+                hide-checkbox-column
+                draft-values={draftValues}
+                onsave={handleSave}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>
